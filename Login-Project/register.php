@@ -1,5 +1,5 @@
 <?php
-include 'config.php';
+include 'config.php'; // Assuming this includes your database connection details and initializes $conn
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $first_name = $_POST['fName'];
@@ -10,11 +10,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Insert data into the users table
     $sql = "INSERT INTO users (first_name, last_name, email, password) VALUES (?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
+
+    // Bind parameters
     $stmt->bind_param("ssss", $first_name, $last_name, $email, $password);
 
     if ($stmt->execute()) {
-        echo "Registration successful!";
+        // Registration successful
+        echo "Registration successful! Welcome, $first_name";
     } else {
+        // Error handling
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
 
